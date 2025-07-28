@@ -8,47 +8,52 @@
     <div class="hero-background">
         <div class="hero-particles"></div>
     </div>
-    
+
     <div class="container">
         <div class="hero-content">
             <div class="hero-text">
                 <h1 class="hero-title">
-                    <span class="text-gradient">Привет, я разработчик</span>
+                    <span class="text-gradient">Hi, I'm a Bot Developer</span>
                 </h1>
                 <p class="hero-subtitle">
-                    Создаю современные веб-приложения и боты с фокусом на пользовательский опыт и производительность
+                    I create Telegram bots, websites, and Discord bots with
+                    focus on user experience and functionality
                 </p>
-                
+
                 <div class="hero-buttons">
-                    <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">
-                        <span>Посмотреть работы</span>
+                    <a href="{% url 'portfolio:projects' %}"
+                        class="btn btn-primary">
+                        <span>View My Work</span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
-                    <a href="{% url 'portfolio:contact' %}" class="btn btn-secondary">
-                        <span>Связаться со мной</span>
+                    <a href="{% url 'portfolio:contact' %}"
+                        class="btn btn-secondary">
+                        <span>Get In Touch</span>
                     </a>
                 </div>
-                
+
                 <div class="hero-stats">
                     <div class="stat">
-                        <span class="stat-number">{{ featured_projects.count }}+</span>
-                        <span class="stat-label">Проектов</span>
+                        <span class="stat-number">{{ featured_projects.count
+                            }}+</span>
+                        <span class="stat-label">Projects</span>
                     </div>
                     <div class="stat">
-                        <span class="stat-number">2+</span>
-                        <span class="stat-label">Лет опыта</span>
+                        <span class="stat-number">3+</span>
+                        <span class="stat-label">Years Experience</span>
                     </div>
                     <div class="stat">
                         <span class="stat-number">{{ skills.count }}+</span>
-                        <span class="stat-label">Технологий</span>
+                        <span class="stat-label">Technologies</span>
                     </div>
                 </div>
             </div>
-            
+
             <div class="hero-image">
                 <div class="profile-card">
                     <div class="profile-image">
-                        <img src="/static/images/profile.jpg" alt="Profile" id="profile-img">
+                        <img src="/static/images/profile.jpg" alt="Profile"
+                            id="profile-img">
                         <div class="profile-overlay"></div>
                     </div>
                     <div class="floating-elements">
@@ -69,7 +74,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="scroll-indicator">
         <div class="scroll-line"></div>
         <span>Прокрутите вниз</span>
@@ -80,48 +85,56 @@
 <section class="section projects-preview">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Избранные проекты</h2>
-            <p class="section-subtitle">Некоторые из моих лучших работ</p>
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Some of my best work</p>
         </div>
-        
+
         <div class="projects-grid">
             {% for project in featured_projects %}
-            <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+            <div class="project-card" data-aos="fade-up"
+                data-aos-delay="{{ forloop.counter0|add:100 }}">
                 <div class="project-image">
                     {% if project.main_image %}
-                        <img src="{{ project.main_image.url }}" alt="{{ project.title }}" loading="lazy">
+                    <img src="{{ project.main_image.url }}"
+                        alt="{{ project.title }}" loading="lazy">
                     {% else %}
-                        <div class="project-placeholder">
-                            <i class="fas fa-code"></i>
-                        </div>
+                    <div class="project-placeholder">
+                        <i class="fas fa-code"></i>
+                    </div>
                     {% endif %}
                     <div class="project-overlay">
                         <div class="project-links">
                             {% if project.demo_url %}
-                                <a href="{{ project.demo_url }}" target="_blank" class="project-link">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </a>
+                            <a href="{{ project.demo_url }}" target="_blank"
+                                class="project-link">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
                             {% endif %}
                             {% if project.github_url %}
-                                <a href="{{ project.github_url }}" target="_blank" class="project-link">
-                                    <i class="fab fa-github"></i>
-                                </a>
+                            <a href="{{ project.github_url }}" target="_blank"
+                                class="project-link">
+                                <i class="fab fa-github"></i>
+                            </a>
                             {% endif %}
-                            <a href="{% url 'portfolio:project_detail' project.slug %}" class="project-link">
+                            <a
+                                href="{% url 'portfolio:project_detail' project.slug %}"
+                                class="project-link">
                                 <i class="fas fa-info-circle"></i>
                             </a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="project-content">
-                    <div class="project-category">{{ project.category.name }}</div>
+                    <div class="project-category">{{ project.category.name
+                        }}</div>
                     <h3 class="project-title">{{ project.title }}</h3>
-                    <p class="project-description">{{ project.short_description }}</p>
-                    
+                    <p class="project-description">{{ project.short_description
+                        }}</p>
+
                     <div class="project-tech">
                         {% for tech in project.get_technologies_list %}
-                            <span class="tech-tag">{{ tech }}</span>
+                        <span class="tech-tag">{{ tech }}</span>
                         {% endfor %}
                     </div>
                 </div>
@@ -129,15 +142,15 @@
             {% empty %}
             <div class="no-projects">
                 <i class="fas fa-folder-open"></i>
-                <p>Проекты скоро появятся!</p>
+                <p>Projects coming soon!</p>
             </div>
             {% endfor %}
         </div>
-        
+
         {% if featured_projects %}
         <div class="section-footer">
             <a href="{% url 'portfolio:projects' %}" class="btn btn-outline">
-                <span>Все проекты</span>
+                <span>All Projects</span>
                 <i class="fas fa-arrow-right"></i>
             </a>
         </div>
@@ -149,10 +162,10 @@
 <section class="section skills-section">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Навыки и технологии</h2>
-            <p class="section-subtitle">Инструменты, которые я использую</p>
+            <h2 class="section-title">Skills & Technologies</h2>
+            <p class="section-subtitle">Tools I use in my work</p>
         </div>
-        
+
         <div class="skills-grid">
             {% regroup skills by category as skill_groups %}
             {% for group in skill_groups %}
@@ -162,14 +175,16 @@
                     {% for skill in group.list %}
                     <div class="skill-item">
                         {% if skill.icon %}
-                            <i class="{{ skill.icon }}"></i>
+                        <i class="{{ skill.icon }}"></i>
                         {% endif %}
                         <span class="skill-name">{{ skill.name }}</span>
                         <div class="skill-level">
                             <div class="skill-bar">
-                                <div class="skill-progress" style="width: {{ skill.level }}%"></div>
+                                <div class="skill-progress"
+                                    style="width: {{ skill.level }}%"></div>
                             </div>
-                            <span class="skill-percentage">{{ skill.level }}%</span>
+                            <span class="skill-percentage">{{ skill.level
+                                }}%</span>
                         </div>
                     </div>
                     {% endfor %}
@@ -185,40 +200,42 @@
 <section class="section experience-section">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Опыт работы</h2>
-            <p class="section-subtitle">Мой профессиональный путь</p>
+            <h2 class="section-title">Work Experience</h2>
+            <p class="section-subtitle">My professional journey</p>
         </div>
-        
+
         <div class="timeline">
             {% for experience in experiences %}
             <div class="timeline-item" data-aos="fade-up">
                 <div class="timeline-marker"></div>
                 <div class="timeline-content">
                     <div class="experience-period">
-                        {{ experience.start_date.year }} - 
+                        {{ experience.start_date.year }} -
                         {% if experience.is_current %}
-                            Настоящее время
+                        Present
                         {% else %}
-                            {{ experience.end_date.year }}
+                        {{ experience.end_date.year }}
                         {% endif %}
                     </div>
                     <h3 class="experience-title">{{ experience.position }}</h3>
                     <div class="experience-company">
                         {% if experience.company_url %}
-                            <a href="{{ experience.company_url }}" target="_blank">{{ experience.company }}</a>
+                        <a href="{{ experience.company_url }}"
+                            target="_blank">{{ experience.company }}</a>
                         {% else %}
-                            {{ experience.company }}
+                        {{ experience.company }}
                         {% endif %}
                     </div>
-                    <p class="experience-description">{{ experience.description }}</p>
+                    <p class="experience-description">{{ experience.description
+                        }}</p>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="section-footer">
             <a href="{% url 'portfolio:about' %}" class="btn btn-outline">
-                <span>Подробнее обо мне</span>
+                <span>More About Me</span>
                 <i class="fas fa-arrow-right"></i>
             </a>
         </div>
@@ -230,15 +247,16 @@
 <section class="section cta-section">
     <div class="container">
         <div class="cta-content">
-            <h2 class="cta-title">Готовы начать проект?</h2>
-            <p class="cta-subtitle">Давайте обсудим ваши идеи и воплотим их в жизнь</p>
+            <h2 class="cta-title">Ready to start a project?</h2>
+            <p class="cta-subtitle">Let's discuss your ideas and bring them to
+                life</p>
             <div class="cta-buttons">
                 <a href="{% url 'portfolio:contact' %}" class="btn btn-primary">
-                    <span>Связаться со мной</span>
+                    <span>Get In Touch</span>
                     <i class="fas fa-paper-plane"></i>
                 </a>
                 <a href="#" class="btn btn-secondary">
-                    <span>Скачать резюме</span>
+                    <span>Download Resume</span>
                     <i class="fas fa-download"></i>
                 </a>
             </div>
@@ -256,7 +274,7 @@
             const finalNumber = parseInt(stat.textContent);
             let currentNumber = 0;
             const increment = finalNumber / 50;
-            
+
             const timer = setInterval(() => {
                 currentNumber += increment;
                 if (currentNumber >= finalNumber) {
@@ -267,7 +285,7 @@
                 }
             }, 50);
         });
-        
+
         // Floating icons animation
         const floatingIcons = document.querySelectorAll('.floating-icon');
         floatingIcons.forEach((icon, index) => {

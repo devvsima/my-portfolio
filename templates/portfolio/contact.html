@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Контакты - Портфолио{% endblock %}
+{% block title %}Contact - Bot Portfolio{% endblock %}
 
 {% block content %}
 <!-- Contact Header -->
@@ -8,10 +8,10 @@
     <div class="container">
         <div class="hero-content-small">
             <h1 class="hero-title-small">
-                <span class="text-gradient">Связаться со мной</span>
+                <span class="text-gradient">Get In Touch</span>
             </h1>
             <p class="hero-subtitle-small">
-                Готов к новым проектам и интересным предложениям
+                Ready for new projects and interesting opportunities
             </p>
         </div>
     </div>
@@ -29,72 +29,78 @@
                     </div>
                     <h3>Email</h3>
                     <p>your-email@example.com</p>
-                    <a href="mailto:your-email@example.com" class="contact-link">Написать</a>
+                    <a href="mailto:your-email@example.com"
+                        class="contact-link">Write</a>
                 </div>
-                
+
                 <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fab fa-telegram"></i>
                     </div>
                     <h3>Telegram</h3>
                     <p>@yourusername</p>
-                    <a href="https://t.me/yourusername" target="_blank" class="contact-link">Связаться</a>
+                    <a href="https://t.me/yourusername" target="_blank"
+                        class="contact-link">Contact</a>
                 </div>
-                
+
                 <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fab fa-github"></i>
                     </div>
                     <h3>GitHub</h3>
                     <p>github.com/yourusername</p>
-                    <a href="https://github.com/yourusername" target="_blank" class="contact-link">Посмотреть</a>
+                    <a href="https://github.com/yourusername" target="_blank"
+                        class="contact-link">View</a>
                 </div>
-                
+
                 <div class="contact-card">
                     <div class="contact-icon">
                         <i class="fab fa-linkedin"></i>
                     </div>
                     <h3>LinkedIn</h3>
-                    <p>Профессиональная сеть</p>
-                    <a href="https://linkedin.com/in/yourusername" target="_blank" class="contact-link">Подключиться</a>
+                    <p>Professional Network</p>
+                    <a href="https://linkedin.com/in/yourusername"
+                        target="_blank" class="contact-link">Connect</a>
                 </div>
             </div>
-            
+
             <!-- Contact Form -->
             <div class="contact-form-container">
                 <div class="form-header">
-                    <h2>Отправить сообщение</h2>
-                    <p>Заполните форму ниже, и я отвечу в ближайшее время</p>
+                    <h2>Send Message</h2>
+                    <p>Fill out the form below and I'll respond as soon as
+                        possible</p>
                 </div>
-                
+
                 <form id="contact-form" class="contact-form">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="name">Имя *</label>
+                        <label for="name">Name *</label>
                         <input type="text" id="name" name="name" required>
                         <span class="form-error" id="name-error"></span>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="email">Email *</label>
                         <input type="email" id="email" name="email" required>
                         <span class="form-error" id="email-error"></span>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="subject">Тема *</label>
+                        <label for="subject">Subject *</label>
                         <input type="text" id="subject" name="subject" required>
                         <span class="form-error" id="subject-error"></span>
                     </div>
-                    
+
                     <div class="form-group">
-                        <label for="message">Сообщение *</label>
-                        <textarea id="message" name="message" rows="6" required></textarea>
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="6"
+                            required></textarea>
                         <span class="form-error" id="message-error"></span>
                     </div>
-                    
+
                     <button type="submit" class="btn btn-primary submit-btn">
-                        <span class="btn-text">Отправить сообщение</span>
+                        <span class="btn-text">Send Message</span>
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </form>
@@ -111,32 +117,32 @@
                 <div class="info-icon">
                     <i class="fas fa-clock"></i>
                 </div>
-                <h3>Время ответа</h3>
-                <p>Обычно отвечаю в течение 24 часов</p>
+                <h3>Response Time</h3>
+                <p>Usually respond within 24 hours</p>
             </div>
-            
+
             <div class="info-card">
                 <div class="info-icon">
                     <i class="fas fa-globe"></i>
                 </div>
-                <h3>Часовой пояс</h3>
-                <p>UTC+3 (Москва)</p>
+                <h3>Time Zone</h3>
+                <p>UTC+3 (Moscow)</p>
             </div>
-            
+
             <div class="info-card">
                 <div class="info-icon">
                     <i class="fas fa-handshake"></i>
                 </div>
-                <h3>Готов к работе</h3>
-                <p>Открыт для новых проектов и сотрудничества</p>
+                <h3>Available for Work</h3>
+                <p>Open to new projects and collaboration</p>
             </div>
-            
+
             <div class="info-card">
                 <div class="info-icon">
                     <i class="fas fa-language"></i>
                 </div>
-                <h3>Языки</h3>
-                <p>Русский (родной), Английский (средний)</p>
+                <h3>Languages</h3>
+                <p>Russian (native), English (intermediate)</p>
             </div>
         </div>
     </div>
@@ -382,11 +388,11 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .contact-form-container {
         padding: 2rem 1.5rem;
     }
-    
+
     .info-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 1.5rem;
@@ -400,24 +406,24 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('contact-form');
     const submitBtn = form.querySelector('.submit-btn');
-    
+
     form.addEventListener('submit', handleSubmit);
-    
+
     // Real-time validation
     const inputs = form.querySelectorAll('input, textarea');
     inputs.forEach(input => {
         input.addEventListener('blur', validateField);
         input.addEventListener('input', clearErrors);
     });
-    
+
     function validateField(e) {
         const field = e.target;
         const value = field.value.trim();
         const name = field.name;
         const errorElement = document.getElementById(`${name}-error`);
-        
+
         let error = '';
-        
+
         if (!value) {
             error = 'Это поле обязательно для заполнения';
         } else if (name === 'email' && !isValidEmail(value)) {
@@ -429,7 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (name === 'message' && value.length < 10) {
             error = 'Сообщение должно содержать минимум 10 символов';
         }
-        
+
         if (error) {
             showFieldError(errorElement, error);
             return false;
@@ -438,31 +444,31 @@ document.addEventListener('DOMContentLoaded', function() {
             return true;
         }
     }
-    
+
     function clearErrors(e) {
         const field = e.target;
         const errorElement = document.getElementById(`${field.name}-error`);
         hideFieldError(errorElement);
     }
-    
+
     function showFieldError(errorElement, message) {
         errorElement.textContent = message;
         errorElement.classList.add('visible');
     }
-    
+
     function hideFieldError(errorElement) {
         errorElement.textContent = '';
         errorElement.classList.remove('visible');
     }
-    
+
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-    
+
     function handleSubmit(e) {
         e.preventDefault();
-        
+
         // Validate all fields
         let isValid = true;
         inputs.forEach(input => {
@@ -470,13 +476,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 isValid = false;
             }
         });
-        
+
         if (!isValid) return;
-        
+
         // Show loading state
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
-        
+
         const formData = new FormData(form);
         const data = {
             name: formData.get('name'),
@@ -484,7 +490,7 @@ document.addEventListener('DOMContentLoaded', function() {
             subject: formData.get('subject'),
             message: formData.get('message')
         };
-        
+
         // Send data
         fetch('/ajax/send-message/', {
             method: 'POST',
@@ -512,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = false;
         });
     }
-    
+
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -527,7 +533,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return cookieValue;
     }
-    
+
     function showNotification(message, type) {
         const notification = document.createElement('div');
         notification.style.cssText = `
@@ -544,13 +550,13 @@ document.addEventListener('DOMContentLoaded', function() {
             max-width: 400px;
         `;
         notification.textContent = message;
-        
+
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
+
         setTimeout(() => {
             notification.style.transform = 'translateX(100%)';
             setTimeout(() => {

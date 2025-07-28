@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ project.title }} - Портфолио{% endblock %}
+{% block title %}{{ project.title }} - Bot Portfolio{% endblock %}
 
 {% block content %}
 <!-- Project Header -->
@@ -10,41 +10,44 @@
             <div class="project-meta">
                 <a href="{% url 'portfolio:projects' %}" class="back-link">
                     <i class="fas fa-arrow-left"></i>
-                    <span>Назад к проектам</span>
+                    <span>Back to Projects</span>
                 </a>
-                <span class="project-category">{{ project.category.name }}</span>
+                <span class="project-category">{{ project.category.name
+                    }}</span>
                 {% if project.is_featured %}
-                    <span class="featured-badge">Рекомендуемый</span>
+                <span class="featured-badge">Featured</span>
                 {% endif %}
             </div>
-            
+
             <h1 class="project-title">{{ project.title }}</h1>
             <p class="project-subtitle">{{ project.short_description }}</p>
-            
+
             <div class="project-links">
                 {% if project.demo_url %}
-                    <a href="{{ project.demo_url }}" target="_blank" class="btn btn-primary">
-                        <i class="fas fa-external-link-alt"></i>
-                        <span>Посмотреть демо</span>
-                    </a>
+                <a href="{{ project.demo_url }}" target="_blank"
+                    class="btn btn-primary">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View Demo</span>
+                </a>
                 {% endif %}
                 {% if project.github_url %}
-                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-secondary">
-                        <i class="fab fa-github"></i>
-                        <span>Исходный код</span>
-                    </a>
+                <a href="{{ project.github_url }}" target="_blank"
+                    class="btn btn-secondary">
+                    <i class="fab fa-github"></i>
+                    <span>Source Code</span>
+                </a>
                 {% endif %}
             </div>
         </div>
-        
+
         <div class="project-image-main">
             {% if project.main_image %}
-                <img src="{{ project.main_image.url }}" alt="{{ project.title }}">
+            <img src="{{ project.main_image.url }}" alt="{{ project.title }}">
             {% else %}
-                <div class="project-placeholder-large">
-                    <i class="fas fa-code"></i>
-                    <span>Изображение проекта</span>
-                </div>
+            <div class="project-placeholder-large">
+                <i class="fas fa-code"></i>
+                <span>Project Image</span>
+            </div>
             {% endif %}
         </div>
     </div>
@@ -57,23 +60,25 @@
             <!-- Main Content -->
             <div class="project-main-content">
                 <div class="project-description">
-                    <h2>О проекте</h2>
+                    <h2>About Project</h2>
                     <div class="description-text">
                         {{ project.description|linebreaks }}
                     </div>
                 </div>
-                
+
                 <!-- Project Gallery -->
                 {% if project.images.all %}
                 <div class="project-gallery">
-                    <h3>Галерея</h3>
+                    <h3>Gallery</h3>
                     <div class="gallery-grid">
                         {% for image in project.images.all %}
-                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
-                            <img src="{{ image.image.url }}" alt="{{ image.title|default:project.title }}" 
-                                 onclick="openLightbox(this)" loading="lazy">
+                        <div class="gallery-item" data-aos="fade-up"
+                            data-aos-delay="{{ forloop.counter0|add:100 }}">
+                            <img src="{{ image.image.url }}"
+                                alt="{{ image.title|default:project.title }}"
+                                onclick="openLightbox(this)" loading="lazy">
                             {% if image.title %}
-                                <div class="gallery-caption">{{ image.title }}</div>
+                            <div class="gallery-caption">{{ image.title }}</div>
                             {% endif %}
                         </div>
                         {% endfor %}
@@ -81,71 +86,81 @@
                 </div>
                 {% endif %}
             </div>
-            
+
             <!-- Sidebar -->
             <div class="project-sidebar">
                 <!-- Technologies -->
                 <div class="project-tech-section">
-                    <h3>Технологии</h3>
+                    <h3>Technologies</h3>
                     <div class="tech-tags-large">
                         {% for tech in project.get_technologies_list %}
-                            <span class="tech-tag-large">{{ tech }}</span>
+                        <span class="tech-tag-large">{{ tech }}</span>
                         {% endfor %}
                     </div>
                 </div>
-                
+
                 <!-- Project Info -->
                 <div class="project-info-section">
-                    <h3>Информация о проекте</h3>
+                    <h3>Project Information</h3>
                     <div class="info-list">
                         <div class="info-item">
-                            <span class="info-label">Дата создания:</span>
-                            <span class="info-value">{{ project.created_at|date:"d F Y" }}</span>
+                            <span class="info-label">Created:</span>
+                            <span class="info-value">{{
+                                project.created_at|date:"d F Y" }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">Последнее обновление:</span>
-                            <span class="info-value">{{ project.updated_at|date:"d F Y" }}</span>
+                            <span class="info-label">Last Updated:</span>
+                            <span class="info-value">{{
+                                project.updated_at|date:"d F Y" }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="info-label">Категория:</span>
-                            <span class="info-value">{{ project.category.name }}</span>
+                            <span class="info-label">Category:</span>
+                            <span class="info-value">{{ project.category.name
+                                }}</span>
                         </div>
                         {% if project.demo_url %}
                         <div class="info-item">
-                            <span class="info-label">Демо:</span>
-                            <a href="{{ project.demo_url }}" target="_blank" class="info-link">
-                                Посмотреть <i class="fas fa-external-link-alt"></i>
+                            <span class="info-label">Demo:</span>
+                            <a href="{{ project.demo_url }}" target="_blank"
+                                class="info-link">
+                                View <i class="fas fa-external-link-alt"></i>
                             </a>
                         </div>
                         {% endif %}
                         {% if project.github_url %}
                         <div class="info-item">
-                            <span class="info-label">Код:</span>
-                            <a href="{{ project.github_url }}" target="_blank" class="info-link">
+                            <span class="info-label">Code:</span>
+                            <a href="{{ project.github_url }}" target="_blank"
+                                class="info-link">
                                 GitHub <i class="fab fa-github"></i>
                             </a>
                         </div>
                         {% endif %}
                     </div>
                 </div>
-                
+
                 <!-- Share Section -->
                 <div class="project-share-section">
-                    <h3>Поделиться</h3>
+                    <h3>Share</h3>
                     <div class="share-buttons">
-                        <a href="https://twitter.com/intent/tweet?text={{ project.title }}&url={{ request.build_absolute_uri }}" 
-                           target="_blank" class="share-btn twitter">
+                        <a
+                            href="https://twitter.com/intent/tweet?text={{ project.title }}&url={{ request.build_absolute_uri }}"
+                            target="_blank" class="share-btn twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
-                           target="_blank" class="share-btn facebook">
+                        <a
+                            href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                            target="_blank" class="share-btn facebook">
                             <i class="fab fa-facebook"></i>
                         </a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
-                           target="_blank" class="share-btn linkedin">
+                        <a
+                            href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
+                            target="_blank" class="share-btn linkedin">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <button onclick="copyToClipboard('{{ request.build_absolute_uri }}')" class="share-btn copy">
+                        <button
+                            onclick="copyToClipboard('{{ request.build_absolute_uri }}')"
+                            class="share-btn copy">
                             <i class="fas fa-link"></i>
                         </button>
                     </div>
@@ -161,41 +176,47 @@
     <div class="container">
         <div class="section-header">
             <h2 class="section-title">Похожие проекты</h2>
-            <p class="section-subtitle">Другие работы в категории "{{ project.category.name }}"</p>
+            <p class="section-subtitle">Другие работы в категории
+                "{{ project.category.name }}"</p>
         </div>
-        
+
         <div class="related-grid">
             {% for related in related_projects %}
-            <div class="project-card-small" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+            <div class="project-card-small" data-aos="fade-up"
+                data-aos-delay="{{ forloop.counter0|add:100 }}">
                 <div class="project-image-small">
                     {% if related.main_image %}
-                        <img src="{{ related.main_image.url }}" alt="{{ related.title }}" loading="lazy">
+                    <img src="{{ related.main_image.url }}"
+                        alt="{{ related.title }}" loading="lazy">
                     {% else %}
-                        <div class="project-placeholder-small">
-                            <i class="fas fa-code"></i>
-                        </div>
+                    <div class="project-placeholder-small">
+                        <i class="fas fa-code"></i>
+                    </div>
                     {% endif %}
                     <div class="project-overlay-small">
-                        <a href="{% url 'portfolio:project_detail' related.slug %}" class="view-project-btn">
+                        <a
+                            href="{% url 'portfolio:project_detail' related.slug %}"
+                            class="view-project-btn">
                             <i class="fas fa-eye"></i>
                             <span>Посмотреть</span>
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="project-content-small">
                     <h3>{{ related.title }}</h3>
                     <p>{{ related.short_description|truncatechars:100 }}</p>
                     <div class="project-tech-small">
-                        {% for tech in related.get_technologies_list|slice:":3" %}
-                            <span class="tech-tag-small">{{ tech }}</span>
+                        {% for tech in related.get_technologies_list|slice:":3"
+                        %}
+                        <span class="tech-tag-small">{{ tech }}</span>
                         {% endfor %}
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-        
+
         <div class="section-footer">
             <a href="{% url 'portfolio:projects' %}" class="btn btn-outline">
                 <span>Все проекты</span>
@@ -209,8 +230,9 @@
 <!-- Lightbox -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
     <div class="lightbox-content">
-        <img id="lightbox-img" src="" alt="">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src alt>
+        <button class="lightbox-close"
+            onclick="closeLightbox()">&times;</button>
         <button class="lightbox-prev" onclick="prevImage()">&lt;</button>
         <button class="lightbox-next" onclick="nextImage()">&gt;</button>
     </div>
@@ -700,23 +722,23 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .project-sidebar {
         position: static;
     }
-    
+
     .gallery-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
-    
+
     .related-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .lightbox-prev {
         left: 10px;
     }
-    
+
     .lightbox-next {
         right: 10px;
     }
@@ -738,11 +760,11 @@ document.addEventListener('DOMContentLoaded', function() {
 function openLightbox(img) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    
+
     currentImageIndex = galleryImages.indexOf(img.src);
     lightboxImg.src = img.src;
     lightbox.classList.add('active');
-    
+
     // Prevent background scrolling
     document.body.style.overflow = 'hidden';
 }
@@ -750,21 +772,21 @@ function openLightbox(img) {
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
     lightbox.classList.remove('active');
-    
+
     // Restore scrolling
     document.body.style.overflow = 'auto';
 }
 
 function prevImage() {
     if (galleryImages.length === 0) return;
-    
+
     currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
     document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
 }
 
 function nextImage() {
     if (galleryImages.length === 0) return;
-    
+
     currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
     document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
 }
@@ -792,13 +814,13 @@ function showNotification(message, type) {
         transition: transform 0.3s ease;
     `;
     notification.textContent = message;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
-    
+
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
@@ -810,7 +832,7 @@ function showNotification(message, type) {
 // Keyboard navigation for lightbox
 document.addEventListener('keydown', function(e) {
     if (!document.getElementById('lightbox').classList.contains('active')) return;
-    
+
     if (e.key === 'Escape') {
         closeLightbox();
     } else if (e.key === 'ArrowLeft') {

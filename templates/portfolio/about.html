@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Обо мне - Портфолио{% endblock %}
+{% block title %}About - Bot Portfolio{% endblock %}
 
 {% block content %}
 <!-- About Header -->
@@ -8,10 +8,11 @@
     <div class="container">
         <div class="hero-content-small">
             <h1 class="hero-title-small">
-                <span class="text-gradient">Обо мне</span>
+                <span class="text-gradient">About Me</span>
             </h1>
             <p class="hero-subtitle-small">
-                Узнайте больше о моем опыте, навыках и подходе к разработке
+                Learn more about my experience, skills and approach to
+                development
             </p>
         </div>
     </div>
@@ -24,89 +25,100 @@
             <!-- About Text -->
             <div class="about-text">
                 <div class="about-intro">
-                    <h2>Привет! Я веб-разработчик</h2>
+                    <h2>Hi! I'm a Bot Developer</h2>
                     <p>
-                        Создаю современные веб-приложения и боты с фокусом на пользовательский опыт 
-                        и производительность. Имею опыт работы с различными технологиями и всегда 
-                        стремлюсь к изучению новых инструментов и подходов.
+                        I create modern Telegram and Discord bots with a focus
+                        on user experience
+                        and performance. I have experience working with various
+                        technologies and always
+                        strive to learn new tools and approaches.
                     </p>
                 </div>
-                
+
                 <div class="about-details">
-                    <h3>Мой путь в разработке</h3>
+                    <h3>My Development Journey</h3>
                     <p>
-                        Начал изучать программирование несколько лет назад и с тех пор постоянно 
-                        развиваюсь в этой области. Специализируюсь на создании веб-приложений с 
-                        использованием Django, разработке Telegram-ботов и создании современных 
-                        пользовательских интерфейсов.
+                        I started learning programming several years ago and
+                        have been constantly
+                        developing in this field ever since. I specialize in
+                        creating bots using
+                        aiogram and discord.py frameworks, developing web
+                        applications with Django,
+                        and creating modern user interfaces.
                     </p>
-                    
+
                     <p>
-                        Люблю решать сложные задачи и находить эффективные решения. Всегда готов 
-                        к изучению новых технологий и применению лучших практик разработки.
+                        I love solving complex problems and finding efficient
+                        solutions. Always ready
+                        to learn new technologies and apply best development
+                        practices.
                     </p>
                 </div>
-                
+
                 <div class="about-values">
-                    <h3>Мои принципы</h3>
+                    <h3>My Principles</h3>
                     <ul class="values-list">
                         <li>
                             <i class="fas fa-code"></i>
                             <div>
-                                <strong>Чистый код</strong>
-                                <span>Пишу понятный и поддерживаемый код</span>
+                                <strong>Clean Code</strong>
+                                <span>I write understandable and maintainable
+                                    code</span>
                             </div>
                         </li>
                         <li>
                             <i class="fas fa-users"></i>
                             <div>
-                                <strong>Пользователи прежде всего</strong>
-                                <span>Создаю интуитивные и удобные интерфейсы</span>
+                                <strong>Users First</strong>
+                                <span>I create intuitive and user-friendly
+                                    interfaces</span>
                             </div>
                         </li>
                         <li>
                             <i class="fas fa-rocket"></i>
                             <div>
-                                <strong>Производительность</strong>
-                                <span>Оптимизирую приложения для максимальной скорости</span>
+                                <strong>Performance</strong>
+                                <span>I optimize applications for maximum
+                                    speed</span>
                             </div>
                         </li>
                         <li>
                             <i class="fas fa-lightbulb"></i>
                             <div>
-                                <strong>Постоянное обучение</strong>
-                                <span>Всегда изучаю новые технологии и подходы</span>
+                                <strong>Continuous Learning</strong>
+                                <span>Always studying new technologies and
+                                    approaches</span>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
-            
+
             <!-- About Stats -->
             <div class="about-stats">
                 <div class="stats-card">
                     <div class="stat-item">
-                        <div class="stat-number">2+</div>
-                        <div class="stat-label">Лет опыта</div>
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Years Experience</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">{{ skills.count }}+</div>
-                        <div class="stat-label">Технологий</div>
+                        <div class="stat-label">Technologies</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">10+</div>
-                        <div class="stat-label">Проектов</div>
+                        <div class="stat-label">Projects</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">100%</div>
-                        <div class="stat-label">Энтузиазма</div>
+                        <div class="stat-label">Enthusiasm</div>
                     </div>
                 </div>
-                
+
                 <div class="download-resume">
                     <a href="#" class="btn btn-primary" download>
                         <i class="fas fa-download"></i>
-                        <span>Скачать резюме</span>
+                        <span>Download Resume</span>
                     </a>
                 </div>
             </div>
@@ -118,35 +130,38 @@
 <section class="section skills-detailed">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Навыки и технологии</h2>
-            <p class="section-subtitle">Инструменты, которые я использую в работе</p>
+            <h2 class="section-title">Skills and Technologies</h2>
+            <p class="section-subtitle">Tools that I use in my work</p>
         </div>
-        
+
         <div class="skills-categories">
             {% regroup skills by category as skill_groups %}
             {% for group in skill_groups %}
             <div class="skill-category-detailed" data-aos="fade-up">
                 <div class="category-header">
                     <h3>{{ group.grouper }}</h3>
-                    <span class="category-count">{{ group.list|length }} навыков</span>
+                    <span class="category-count">{{ group.list|length }}
+                        skills</span>
                 </div>
-                
+
                 <div class="skills-grid-detailed">
                     {% for skill in group.list %}
                     <div class="skill-card">
                         <div class="skill-header">
                             {% if skill.icon %}
-                                <i class="{{ skill.icon }}"></i>
+                            <i class="{{ skill.icon }}"></i>
                             {% else %}
-                                <i class="fas fa-code"></i>
+                            <i class="fas fa-code"></i>
                             {% endif %}
                             <span class="skill-name">{{ skill.name }}</span>
                         </div>
                         <div class="skill-progress-detailed">
                             <div class="progress-bar">
-                                <div class="progress-fill" data-width="{{ skill.level }}%"></div>
+                                <div class="progress-fill"
+                                    data-width="{{ skill.level }}%"></div>
                             </div>
-                            <span class="progress-text">{{ skill.level }}%</span>
+                            <span class="progress-text">{{ skill.level
+                                }}%</span>
                         </div>
                     </div>
                     {% endfor %}
@@ -162,34 +177,36 @@
 <section class="section experience-detailed">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Опыт работы</h2>
-            <p class="section-subtitle">Мой профессиональный путь</p>
+            <h2 class="section-title">Work Experience</h2>
+            <p class="section-subtitle">My professional journey</p>
         </div>
-        
+
         <div class="experience-timeline">
             {% for experience in experiences %}
             <div class="experience-item" data-aos="fade-up">
                 <div class="experience-date">
                     <span class="date-range">
-                        {{ experience.start_date.year }} - 
+                        {{ experience.start_date.year }} -
                         {% if experience.is_current %}
-                            Настоящее время
+                        Present
                         {% else %}
-                            {{ experience.end_date.year }}
+                        {{ experience.end_date.year }}
                         {% endif %}
                     </span>
                     {% if experience.is_current %}
-                        <span class="current-badge">Текущая</span>
+                    <span class="current-badge">Current</span>
                     {% endif %}
                 </div>
-                
+
                 <div class="experience-content">
-                    <h3 class="experience-position">{{ experience.position }}</h3>
+                    <h3 class="experience-position">{{ experience.position
+                        }}</h3>
                     <div class="experience-company">
                         {% if experience.company_url %}
-                            <a href="{{ experience.company_url }}" target="_blank">{{ experience.company }}</a>
+                        <a href="{{ experience.company_url }}"
+                            target="_blank">{{ experience.company }}</a>
                         {% else %}
-                            {{ experience.company }}
+                        {{ experience.company }}
                         {% endif %}
                     </div>
                     <p class="experience-desc">{{ experience.description }}</p>
@@ -205,41 +222,44 @@
 <section class="section interests-section">
     <div class="container">
         <div class="section-header">
-            <h2 class="section-title">Интересы и хобби</h2>
-            <p class="section-subtitle">Чем я занимаюсь в свободное время</p>
+            <h2 class="section-title">Interests & Hobbies</h2>
+            <p class="section-subtitle">What I do in my free time</p>
         </div>
-        
+
         <div class="interests-grid">
             <div class="interest-card">
                 <div class="interest-icon">
                     <i class="fas fa-code"></i>
                 </div>
                 <h3>Open Source</h3>
-                <p>Участвую в проектах с открытым исходным кодом и делюсь своими разработками</p>
+                <p>I participate in open source projects and share my
+                    developments</p>
             </div>
-            
+
             <div class="interest-card">
                 <div class="interest-icon">
                     <i class="fas fa-book"></i>
                 </div>
-                <h3>Изучение технологий</h3>
-                <p>Постоянно изучаю новые фреймворки, языки программирования и подходы</p>
+                <h3>Learning Technologies</h3>
+                <p>Constantly learning new frameworks, programming languages and
+                    approaches</p>
             </div>
-            
+
             <div class="interest-card">
                 <div class="interest-icon">
                     <i class="fas fa-gamepad"></i>
                 </div>
-                <h3>Игры</h3>
-                <p>Люблю качественные игры, особенно стратегии и RPG</p>
+                <h3>Gaming</h3>
+                <p>I love quality games, especially strategies and RPGs</p>
             </div>
-            
+
             <div class="interest-card">
                 <div class="interest-icon">
                     <i class="fas fa-music"></i>
                 </div>
-                <h3>Музыка</h3>
-                <p>Слушаю различные жанры, предпочитаю электронную и инструментальную музыку</p>
+                <h3>Music</h3>
+                <p>I listen to various genres, prefer electronic and
+                    instrumental music</p>
             </div>
         </div>
     </div>
@@ -586,16 +606,16 @@
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .skills-grid-detailed {
         grid-template-columns: 1fr;
     }
-    
+
     .experience-item {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-    
+
     .interests-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     }
@@ -608,7 +628,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Animate skill progress bars when they come into view
     const progressBars = document.querySelectorAll('.progress-fill');
-    
+
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -621,14 +641,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.5 });
-    
+
     progressBars.forEach(bar => {
         observer.observe(bar);
     });
-    
+
     // Animate stat numbers
     const statNumbers = document.querySelectorAll('.stat-number');
-    
+
     const statsObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -637,21 +657,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, { threshold: 0.5 });
-    
+
     statNumbers.forEach(stat => {
         statsObserver.observe(stat);
     });
-    
+
     function animateStatNumber(element) {
         const text = element.textContent;
         const number = parseInt(text.replace(/\D/g, ''));
         const suffix = text.replace(/\d/g, '');
-        
+
         if (isNaN(number)) return;
-        
+
         let current = 0;
         const increment = number / 30;
-        
+
         const timer = setInterval(() => {
             current += increment;
             if (current >= number) {
