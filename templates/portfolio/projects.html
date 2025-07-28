@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+
+{% block title %}Проекты - Портфолио{% endblock %}
+
+{% block content %}
+<!-- Projects Header -->
+<section class="hero-small">
+    <div class="container">
+        <div class="hero-content-small">
+            <h1 class="hero-title-small">
+                <span class="text-gradient">Мои проекты</span>
+            </h1>
+            <p class="hero-subtitle-small">
+                Коллекция моих работ в области веб-разработки и создания ботов
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Filter Section -->
+<section class="section projects-filter">
+    <div class="container">
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-category="all">
+                <span>Все проекты</span>
+            </button>
+            {% for category in categories %}
+            <button class="filter-btn" data-category="{{ category.slug }}">
+                <span>{{ category.name }}</span>
+            </button>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="section projects-main">
+    <div class="container">
+        <div class="projects-grid" id="projects-container">
+            {% for project in projects %}
+            <div class="project-card" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="project-image">
+                    {% if project.main_image %}
+                        <img src="{{ project.main_image.url }}" alt="{{ project.title }}" loading="lazy">
+                    {% else %}
+                        <div class="project-placeholder">
+                            <i class="fas fa-code"></i>
+                        </div>
+                    {% endif %}
+                    <div class="project-overlay">
+                        <div class="project-links">
+                            {% if project.demo_url %}
+                                <a href="{{ project.demo_url }}" target="_blank" class="project-link" title="Демо">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            {% endif %}
+                            {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" class="project-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            {% endif %}
+                            <a href="{% url 'portfolio:project_detail' project.slug %}" class="project-link" title="Подробнее">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-content">
+                    <div class="project-category">{{ project.category.name }}</div>
+                    <h3 class="project-title">{{ project.title }}</h3>
+                    <p class="project-description">{{ project.short_description }}</p>
+                    
+                    <div class="project-tech">
+                        {% for tech in project.get_technologies_list %}
+                            <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="project-meta">
+                        <span class="project-date">{{ project.created_at|date:"M Y" }}</span>
+                        {% if project.is_featured %}
+                            <span class="project-badge">Рекомендуемый</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="no-projects">
+                <i class="fas fa-folder-open"></i>
+                <h3>Проекты не найдены</h3>
+                <p>{% if current_category %}В категории "{{ current_category.name }}" проекты пока не добавлены.{% else %}Проекты скоро появятся!{% endif %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Load More Section -->
+{% if projects.count > 6 %}
+<section class="section load-more-section">
+    <div class="container">
+        <div class="section-footer">
+            <button class="btn btn-outline" id="load-more-btn">
+                <span>Загрузить еще</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-small {
+    padding: 8rem 0 4rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.hero-content-small {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-title-small {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle-small {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+.projects-filter {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.projects-main {
+    padding: 4rem 0;
+}
+
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-date {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.project-badge {
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.load-more-section {
+    padding: 2rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .hero-small {
+        padding: 6rem 0 3rem;
+    }
+    
+    .filter-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .filter-btn {
+        width: 200px;
+        text-align: center;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectsContainer = document.getElementById('projects-container');
+    
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const category = this.dataset.category;
+            
+            // Update active button
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Filter projects with animation
+            filterProjects(category);
+        });
+    });
+    
+    function filterProjects(category) {
+        if (!projectsContainer) return;
+        
+        // Add loading animation
+        projectsContainer.style.opacity = '0.5';
+        projectsContainer.style.transform = 'scale(0.95)';
+        
+        fetch(`/ajax/get-projects/?category=${category}`)
+            .then(response => response.json())
+            .then(data => {
+                setTimeout(() => {
+                    renderProjects(data.projects);
+                    projectsContainer.style.opacity = '1';
+                    projectsContainer.style.transform = 'scale(1)';
+                }, 300);
+            })
+            .catch(error => {
+                console.error('Error filtering projects:', error);
+                projectsContainer.style.opacity = '1';
+                projectsContainer.style.transform = 'scale(1)';
+            });
+    }
+    
+    function renderProjects(projects) {
+        if (!projectsContainer) return;
+        
+        projectsContainer.innerHTML = '';
+        
+        if (projects.length === 0) {
+            projectsContainer.innerHTML = `
+                <div class="no-projects">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>Проекты не найдены</h3>
+                    <p>В этой категории проекты пока не добавлены.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        projects.forEach((project, index) => {
+            const projectElement = createProjectElement(project, index);
+            projectsContainer.appendChild(projectElement);
+        });
+    }
+    
+    function createProjectElement(project, index) {
+        const projectDiv = document.createElement('div');
+        projectDiv.className = 'project-card';
+        projectDiv.setAttribute('data-aos', 'fade-up');
+        projectDiv.setAttribute('data-aos-delay', (index * 100 + 100).toString());
+        
+        const techTags = project.technologies.map(tech => 
+            `<span class="tech-tag">${tech}</span>`
+        ).join('');
+        
+        projectDiv.innerHTML = `
+            <div class="project-image">
+                ${project.main_image ? 
+                    `<img src="${project.main_image}" alt="${project.title}" loading="lazy">` :
+                    `<div class="project-placeholder"><i class="fas fa-code"></i></div>`
+                }
+                <div class="project-overlay">
+                    <div class="project-links">
+                        ${project.demo_url ? 
+                            `<a href="${project.demo_url}" target="_blank" class="project-link" title="Демо">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>` : ''
+                        }
+                        ${project.github_url ? 
+                            `<a href="${project.github_url}" target="_blank" class="project-link" title="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>` : ''
+                        }
+                        <a href="/project/${project.slug}/" class="project-link" title="Подробнее">
+                            <i class="fas fa-info-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="project-content">
+                <div class="project-category">${project.category || 'Проект'}</div>
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-description">${project.short_description}</p>
+                <div class="project-tech">${techTags}</div>
+            </div>
+        `;
+        
+        return projectDiv;
+    }
+});
+</script>
+{% endblock %}

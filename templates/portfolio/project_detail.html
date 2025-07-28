@@ -1,0 +1,823 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.title }} - Портфолио{% endblock %}
+
+{% block content %}
+<!-- Project Header -->
+<section class="project-header">
+    <div class="container">
+        <div class="project-header-content">
+            <div class="project-meta">
+                <a href="{% url 'portfolio:projects' %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Назад к проектам</span>
+                </a>
+                <span class="project-category">{{ project.category.name }}</span>
+                {% if project.is_featured %}
+                    <span class="featured-badge">Рекомендуемый</span>
+                {% endif %}
+            </div>
+            
+            <h1 class="project-title">{{ project.title }}</h1>
+            <p class="project-subtitle">{{ project.short_description }}</p>
+            
+            <div class="project-links">
+                {% if project.demo_url %}
+                    <a href="{{ project.demo_url }}" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Посмотреть демо</span>
+                    </a>
+                {% endif %}
+                {% if project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-github"></i>
+                        <span>Исходный код</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="project-image-main">
+            {% if project.main_image %}
+                <img src="{{ project.main_image.url }}" alt="{{ project.title }}">
+            {% else %}
+                <div class="project-placeholder-large">
+                    <i class="fas fa-code"></i>
+                    <span>Изображение проекта</span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Project Details -->
+<section class="section project-details">
+    <div class="container">
+        <div class="project-content-grid">
+            <!-- Main Content -->
+            <div class="project-main-content">
+                <div class="project-description">
+                    <h2>О проекте</h2>
+                    <div class="description-text">
+                        {{ project.description|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Project Gallery -->
+                {% if project.images.all %}
+                <div class="project-gallery">
+                    <h3>Галерея</h3>
+                    <div class="gallery-grid">
+                        {% for image in project.images.all %}
+                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                            <img src="{{ image.image.url }}" alt="{{ image.title|default:project.title }}" 
+                                 onclick="openLightbox(this)" loading="lazy">
+                            {% if image.title %}
+                                <div class="gallery-caption">{{ image.title }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="project-sidebar">
+                <!-- Technologies -->
+                <div class="project-tech-section">
+                    <h3>Технологии</h3>
+                    <div class="tech-tags-large">
+                        {% for tech in project.get_technologies_list %}
+                            <span class="tech-tag-large">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Project Info -->
+                <div class="project-info-section">
+                    <h3>Информация о проекте</h3>
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">Дата создания:</span>
+                            <span class="info-value">{{ project.created_at|date:"d F Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Последнее обновление:</span>
+                            <span class="info-value">{{ project.updated_at|date:"d F Y" }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Категория:</span>
+                            <span class="info-value">{{ project.category.name }}</span>
+                        </div>
+                        {% if project.demo_url %}
+                        <div class="info-item">
+                            <span class="info-label">Демо:</span>
+                            <a href="{{ project.demo_url }}" target="_blank" class="info-link">
+                                Посмотреть <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if project.github_url %}
+                        <div class="info-item">
+                            <span class="info-label">Код:</span>
+                            <a href="{{ project.github_url }}" target="_blank" class="info-link">
+                                GitHub <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Share Section -->
+                <div class="project-share-section">
+                    <h3>Поделиться</h3>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text={{ project.title }}&url={{ request.build_absolute_uri }}" 
+                           target="_blank" class="share-btn twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           target="_blank" class="share-btn facebook">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}" 
+                           target="_blank" class="share-btn linkedin">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <button onclick="copyToClipboard('{{ request.build_absolute_uri }}')" class="share-btn copy">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Projects -->
+{% if related_projects %}
+<section class="section related-projects">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Похожие проекты</h2>
+            <p class="section-subtitle">Другие работы в категории "{{ project.category.name }}"</p>
+        </div>
+        
+        <div class="related-grid">
+            {% for related in related_projects %}
+            <div class="project-card-small" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+                <div class="project-image-small">
+                    {% if related.main_image %}
+                        <img src="{{ related.main_image.url }}" alt="{{ related.title }}" loading="lazy">
+                    {% else %}
+                        <div class="project-placeholder-small">
+                            <i class="fas fa-code"></i>
+                        </div>
+                    {% endif %}
+                    <div class="project-overlay-small">
+                        <a href="{% url 'portfolio:project_detail' related.slug %}" class="view-project-btn">
+                            <i class="fas fa-eye"></i>
+                            <span>Посмотреть</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="project-content-small">
+                    <h3>{{ related.title }}</h3>
+                    <p>{{ related.short_description|truncatechars:100 }}</p>
+                    <div class="project-tech-small">
+                        {% for tech in related.get_technologies_list|slice:":3" %}
+                            <span class="tech-tag-small">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="section-footer">
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-outline">
+                <span>Все проекты</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-content">
+        <img id="lightbox-img" src="" alt="">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-prev" onclick="prevImage()">&lt;</button>
+        <button class="lightbox-next" onclick="nextImage()">&gt;</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.project-header {
+    padding: 8rem 0 4rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.1));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-header-content {
+    margin-bottom: 3rem;
+}
+
+.project-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-normal);
+}
+
+.back-link:hover {
+    color: var(--primary-color);
+}
+
+.project-category {
+    padding: 0.25rem 0.75rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.featured-badge {
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.project-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.project-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.project-image-main {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-image-main img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.project-placeholder-large {
+    height: 400px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    gap: 1rem;
+}
+
+.project-placeholder-large i {
+    font-size: 4rem;
+}
+
+.project-placeholder-large span {
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.project-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.project-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.project-description h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.description-text {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.125rem;
+}
+
+.project-gallery h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: var(--transition-normal);
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 1rem;
+    font-size: 0.875rem;
+}
+
+.project-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: sticky;
+    top: 120px;
+}
+
+.project-tech-section,
+.project-info-section,
+.project-share-section {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-sidebar h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.tech-tags-large {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tech-tag-large {
+    padding: 0.5rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.info-value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.info-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 500;
+}
+
+.info-link:hover {
+    color: var(--secondary-color);
+}
+
+.share-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.share-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+}
+
+.share-btn.twitter { background: #1da1f2; }
+.share-btn.facebook { background: #3b5998; }
+.share-btn.linkedin { background: #0077b5; }
+.share-btn.copy { background: var(--gray-600); }
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.project-card-small {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition-normal);
+}
+
+.project-card-small:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.project-image-small {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+}
+
+.project-image-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-normal);
+}
+
+.project-card-small:hover .project-image-small img {
+    transform: scale(1.1);
+}
+
+.project-placeholder-small {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.project-overlay-small {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.project-card-small:hover .project-overlay-small {
+    opacity: 1;
+}
+
+.view-project-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-weight: 500;
+    transition: var(--transition-normal);
+}
+
+.view-project-btn:hover {
+    background: var(--primary-dark);
+}
+
+.project-content-small {
+    padding: 1.5rem;
+}
+
+.project-content-small h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.project-content-small p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.project-tech-small {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.tech-tag-small {
+    padding: 0.25rem 0.5rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    cursor: pointer;
+}
+
+.lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.lightbox-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.lightbox-prev {
+    left: -70px;
+}
+
+.lightbox-next {
+    right: -70px;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .project-content-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .project-sidebar {
+        position: static;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    
+    .related-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lightbox-prev {
+        left: 10px;
+    }
+    
+    .lightbox-next {
+        right: 10px;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let currentImageIndex = 0;
+let galleryImages = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Collect gallery images
+    const images = document.querySelectorAll('.gallery-item img');
+    galleryImages = Array.from(images).map(img => img.src);
+});
+
+function openLightbox(img) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    
+    currentImageIndex = galleryImages.indexOf(img.src);
+    lightboxImg.src = img.src;
+    lightbox.classList.add('active');
+    
+    // Prevent background scrolling
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('active');
+    
+    // Restore scrolling
+    document.body.style.overflow = 'auto';
+}
+
+function prevImage() {
+    if (galleryImages.length === 0) return;
+    
+    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+}
+
+function nextImage() {
+    if (galleryImages.length === 0) return;
+    
+    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+    document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+}
+
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showNotification('Ссылка скопирована в буфер обмена!', 'success');
+    }).catch(() => {
+        showNotification('Не удалось скопировать ссылку', 'error');
+    });
+}
+
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Keyboard navigation for lightbox
+document.addEventListener('keydown', function(e) {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    
+    if (e.key === 'Escape') {
+        closeLightbox();
+    } else if (e.key === 'ArrowLeft') {
+        prevImage();
+    } else if (e.key === 'ArrowRight') {
+        nextImage();
+    }
+});
+</script>
+{% endblock %}

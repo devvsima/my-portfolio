@@ -1,0 +1,667 @@
+{% extends 'base.html' %}
+
+{% block title %}Обо мне - Портфолио{% endblock %}
+
+{% block content %}
+<!-- About Header -->
+<section class="hero-small">
+    <div class="container">
+        <div class="hero-content-small">
+            <h1 class="hero-title-small">
+                <span class="text-gradient">Обо мне</span>
+            </h1>
+            <p class="hero-subtitle-small">
+                Узнайте больше о моем опыте, навыках и подходе к разработке
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="section about-content">
+    <div class="container">
+        <div class="about-grid">
+            <!-- About Text -->
+            <div class="about-text">
+                <div class="about-intro">
+                    <h2>Привет! Я веб-разработчик</h2>
+                    <p>
+                        Создаю современные веб-приложения и боты с фокусом на пользовательский опыт 
+                        и производительность. Имею опыт работы с различными технологиями и всегда 
+                        стремлюсь к изучению новых инструментов и подходов.
+                    </p>
+                </div>
+                
+                <div class="about-details">
+                    <h3>Мой путь в разработке</h3>
+                    <p>
+                        Начал изучать программирование несколько лет назад и с тех пор постоянно 
+                        развиваюсь в этой области. Специализируюсь на создании веб-приложений с 
+                        использованием Django, разработке Telegram-ботов и создании современных 
+                        пользовательских интерфейсов.
+                    </p>
+                    
+                    <p>
+                        Люблю решать сложные задачи и находить эффективные решения. Всегда готов 
+                        к изучению новых технологий и применению лучших практик разработки.
+                    </p>
+                </div>
+                
+                <div class="about-values">
+                    <h3>Мои принципы</h3>
+                    <ul class="values-list">
+                        <li>
+                            <i class="fas fa-code"></i>
+                            <div>
+                                <strong>Чистый код</strong>
+                                <span>Пишу понятный и поддерживаемый код</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong>Пользователи прежде всего</strong>
+                                <span>Создаю интуитивные и удобные интерфейсы</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <strong>Производительность</strong>
+                                <span>Оптимизирую приложения для максимальной скорости</span>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fas fa-lightbulb"></i>
+                            <div>
+                                <strong>Постоянное обучение</strong>
+                                <span>Всегда изучаю новые технологии и подходы</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- About Stats -->
+            <div class="about-stats">
+                <div class="stats-card">
+                    <div class="stat-item">
+                        <div class="stat-number">2+</div>
+                        <div class="stat-label">Лет опыта</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">{{ skills.count }}+</div>
+                        <div class="stat-label">Технологий</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Проектов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Энтузиазма</div>
+                    </div>
+                </div>
+                
+                <div class="download-resume">
+                    <a href="#" class="btn btn-primary" download>
+                        <i class="fas fa-download"></i>
+                        <span>Скачать резюме</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="section skills-detailed">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Навыки и технологии</h2>
+            <p class="section-subtitle">Инструменты, которые я использую в работе</p>
+        </div>
+        
+        <div class="skills-categories">
+            {% regroup skills by category as skill_groups %}
+            {% for group in skill_groups %}
+            <div class="skill-category-detailed" data-aos="fade-up">
+                <div class="category-header">
+                    <h3>{{ group.grouper }}</h3>
+                    <span class="category-count">{{ group.list|length }} навыков</span>
+                </div>
+                
+                <div class="skills-grid-detailed">
+                    {% for skill in group.list %}
+                    <div class="skill-card">
+                        <div class="skill-header">
+                            {% if skill.icon %}
+                                <i class="{{ skill.icon }}"></i>
+                            {% else %}
+                                <i class="fas fa-code"></i>
+                            {% endif %}
+                            <span class="skill-name">{{ skill.name }}</span>
+                        </div>
+                        <div class="skill-progress-detailed">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-width="{{ skill.level }}%"></div>
+                            </div>
+                            <span class="progress-text">{{ skill.level }}%</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+{% if experiences %}
+<section class="section experience-detailed">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Опыт работы</h2>
+            <p class="section-subtitle">Мой профессиональный путь</p>
+        </div>
+        
+        <div class="experience-timeline">
+            {% for experience in experiences %}
+            <div class="experience-item" data-aos="fade-up">
+                <div class="experience-date">
+                    <span class="date-range">
+                        {{ experience.start_date.year }} - 
+                        {% if experience.is_current %}
+                            Настоящее время
+                        {% else %}
+                            {{ experience.end_date.year }}
+                        {% endif %}
+                    </span>
+                    {% if experience.is_current %}
+                        <span class="current-badge">Текущая</span>
+                    {% endif %}
+                </div>
+                
+                <div class="experience-content">
+                    <h3 class="experience-position">{{ experience.position }}</h3>
+                    <div class="experience-company">
+                        {% if experience.company_url %}
+                            <a href="{{ experience.company_url }}" target="_blank">{{ experience.company }}</a>
+                        {% else %}
+                            {{ experience.company }}
+                        {% endif %}
+                    </div>
+                    <p class="experience-desc">{{ experience.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Interests Section -->
+<section class="section interests-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Интересы и хобби</h2>
+            <p class="section-subtitle">Чем я занимаюсь в свободное время</p>
+        </div>
+        
+        <div class="interests-grid">
+            <div class="interest-card">
+                <div class="interest-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Open Source</h3>
+                <p>Участвую в проектах с открытым исходным кодом и делюсь своими разработками</p>
+            </div>
+            
+            <div class="interest-card">
+                <div class="interest-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h3>Изучение технологий</h3>
+                <p>Постоянно изучаю новые фреймворки, языки программирования и подходы</p>
+            </div>
+            
+            <div class="interest-card">
+                <div class="interest-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>Игры</h3>
+                <p>Люблю качественные игры, особенно стратегии и RPG</p>
+            </div>
+            
+            <div class="interest-card">
+                <div class="interest-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <h3>Музыка</h3>
+                <p>Слушаю различные жанры, предпочитаю электронную и инструментальную музыку</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.about-content {
+    padding: 4rem 0;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: start;
+}
+
+.about-text h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.about-text h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+    color: var(--text-primary);
+}
+
+.about-text p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.values-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.values-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.values-list i {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+    min-width: 20px;
+}
+
+.values-list strong {
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.values-list span {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.about-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.stats-card {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.download-resume {
+    text-align: center;
+}
+
+.skills-detailed {
+    background: rgba(99, 102, 241, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skills-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.skill-category-detailed {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-header h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.category-count {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    background: rgba(99, 102, 241, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+}
+
+.skills-grid-detailed {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.skill-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.skill-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.skill-header i {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+}
+
+.skill-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.skill-progress-detailed {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 3px;
+    transition: width 1s ease 0.5s;
+    width: 0%;
+}
+
+.progress-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    min-width: 35px;
+    text-align: right;
+}
+
+.experience-detailed {
+    padding: 4rem 0;
+}
+
+.experience-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.experience-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.experience-item:last-child {
+    border-bottom: none;
+}
+
+.experience-date {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.date-range {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.current-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.experience-content {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.experience-position {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.experience-company {
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.experience-company a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.experience-desc {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.interests-section {
+    background: rgba(236, 72, 153, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.interests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.interest-card {
+    background: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    transition: var(--transition-normal);
+}
+
+.interest-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.interest-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.interest-card h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+}
+
+.interest-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .skills-grid-detailed {
+        grid-template-columns: 1fr;
+    }
+    
+    .experience-item {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .interests-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate skill progress bars when they come into view
+    const progressBars = document.querySelectorAll('.progress-fill');
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const progressBar = entry.target;
+                const width = progressBar.dataset.width;
+                setTimeout(() => {
+                    progressBar.style.width = width;
+                }, 200);
+                observer.unobserve(progressBar);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    progressBars.forEach(bar => {
+        observer.observe(bar);
+    });
+    
+    // Animate stat numbers
+    const statNumbers = document.querySelectorAll('.stat-number');
+    
+    const statsObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateStatNumber(entry.target);
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    statNumbers.forEach(stat => {
+        statsObserver.observe(stat);
+    });
+    
+    function animateStatNumber(element) {
+        const text = element.textContent;
+        const number = parseInt(text.replace(/\D/g, ''));
+        const suffix = text.replace(/\d/g, '');
+        
+        if (isNaN(number)) return;
+        
+        let current = 0;
+        const increment = number / 30;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= number) {
+                element.textContent = number + suffix;
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.floor(current) + suffix;
+            }
+        }, 50);
+    }
+});
+</script>
+{% endblock %}
