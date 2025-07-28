@@ -12,5 +12,6 @@ dependencies = [
     "environs>=14.1.1",
     "loguru>=0.7.3",
     "pillow>=11.3.0",
+    "psycopg2-binary>=2.9.10",
     "redis>=5.2.1",
 ]
